@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="WebFiles - A macOS Tahoe-inspired web file explorer with liquid glass design for browsing and managing system files">
+  <title>WebFiles — File Explorer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Window Title Bar -->
+    <header id="titlebar">
+      <div class="titlebar-left">
+        <div class="traffic-lights">
+          <span class="traffic-light close"></span>
+          <span class="traffic-light minimize"></span>
+          <span class="traffic-light maximize"></span>
+        </div>
+        <div class="nav-buttons">
+          <button class="nav-btn" id="btn-back" title="Go Back" disabled>
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M7.5 2L3.5 6L7.5 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="nav-btn" id="btn-forward" title="Go Forward" disabled>
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4.5 2L8.5 6L4.5 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="titlebar-center">
+        <span id="window-title">Home</span>
+      </div>
+      <div class="titlebar-right">
+        <button class="toolbar-btn" id="btn-new-file" title="New File">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 2H10L13 5V14C13 14.5523 12.5523 15 12 15H4C3.44772 15 3 14.5523 3 14V3C3 2.44772 3.44772 2 4 2Z" stroke="currentColor" stroke-width="1.5"/><path d="M8 7V11M6 9H10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <span class="toolbar-btn-label">New File</span>
+        </button>
+        <button class="toolbar-btn" id="btn-new-folder" title="New Folder">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2 4C2 3.44772 2.44772 3 3 3H6L7.5 4.5H13C13.5523 4.5 14 4.94772 14 5.5V12C14 12.5523 13.5523 13 13 13H3C2.44772 13 2 12.5523 2 12V4Z" stroke="currentColor" stroke-width="1.5"/><path d="M8 6.5V10.5M6 8.5H10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <span class="toolbar-btn-label">New Folder</span>
+        </button>
+        <button class="toolbar-btn" id="btn-upload" title="Upload Files">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M4.5 5L8 1.5L11.5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 11V13C2 13.552 2.448 14 3 14H13C13.552 14 14 13.552 14 13V11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="toolbar-btn-label">Upload</span>
+        </button>
+        <div class="search-wrapper" id="search-wrapper">
+          <svg class="search-icon" width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="5.5" cy="5.5" r="4" stroke="currentColor" stroke-width="1.3"/><path d="M9 9L13 13" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+          <input type="text" id="search-input" placeholder="Search" autocomplete="off">
+          <button class="search-clear" id="search-clear" style="display:none">
+            <svg width="12" height="12" viewBox="0 0 12 12"><path d="M3 3L9 9M9 3L3 9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+        <div class="view-buttons">
+          <button class="view-btn active" id="btn-view-list" title="List View">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="2" width="14" height="2" rx="0.5" fill="currentColor"/><rect x="1" y="7" width="14" height="2" rx="0.5" fill="currentColor"/><rect x="1" y="12" width="14" height="2" rx="0.5" fill="currentColor"/></svg>
+          </button>
+          <button class="view-btn" id="btn-view-grid" title="Grid View">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="6" height="6" rx="1" fill="currentColor"/><rect x="9" y="1" width="6" height="6" rx="1" fill="currentColor"/><rect x="1" y="9" width="6" height="6" rx="1" fill="currentColor"/><rect x="9" y="9" width="6" height="6" rx="1" fill="currentColor"/></svg>
+          </button>
+          <button class="view-btn" id="btn-view-columns" title="Column View">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="4" height="14" rx="0.5" fill="currentColor"/><rect x="6" y="1" width="4" height="14" rx="0.5" fill="currentColor"/><rect x="11" y="1" width="4" height="14" rx="0.5" fill="currentColor"/></svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <div id="main-container">
+      <!-- Sidebar -->
+      <aside id="sidebar">
+        <div class="sidebar-section">
+          <h3 class="sidebar-heading">Folders</h3>
+          <ul id="sidebar-folders" class="sidebar-list"></ul>
+        </div>
+      </aside>
+
+      <!-- Resize Handle -->
+      <div id="sidebar-resize" class="resize-handle"></div>
+
+      <!-- File View Area -->
+      <div id="content-area">
+        <!-- Path Bar -->
+        <div id="path-bar">
+          <div id="breadcrumbs"></div>
+          <div id="item-count"></div>
+        </div>
+
+        <!-- Column header (for list view) -->
+        <div id="list-header">
+          <div class="col-name" data-sort="name">Name <span class="sort-arrow">▲</span></div>
+          <div class="col-modified" data-sort="modified">Date Modified <span class="sort-arrow"></span></div>
+          <div class="col-size" data-sort="size">Size <span class="sort-arrow"></span></div>
+          <div class="col-kind" data-sort="kind">Kind <span class="sort-arrow"></span></div>
+        </div>
+
+        <!-- File List / Grid / Column View -->
+        <div id="file-view" class="view-list">
+          <div id="file-list"></div>
+        </div>
+
+        <!-- Search Results -->
+        <div id="search-results" style="display:none">
+          <div class="search-results-header">
+            <span id="search-results-count"></span>
+          </div>
+          <div id="search-results-list"></div>
+        </div>
+
+        <!-- Empty State -->
+        <div id="empty-state" style="display:none">
+          <div class="empty-icon">
+            <svg width="64" height="64" viewBox="0 0 64 64" fill="none"><path d="M8 16C8 12.686 10.686 10 14 10H28L34 16H50C53.314 16 56 18.686 56 22V48C56 51.314 53.314 54 50 54H14C10.686 54 8 51.314 8 48V16Z" stroke="currentColor" stroke-width="2" fill="none" opacity="0.3"/></svg>
+          </div>
+          <p class="empty-text">This folder is empty</p>
+        </div>
+
+        <!-- Loading State -->
+        <div id="loading-state" style="display:none">
+          <div class="loading-spinner"></div>
+        </div>
+
+        <!-- Error State -->
+        <div id="error-state" style="display:none">
+          <div class="error-icon">⚠️</div>
+          <p class="error-text" id="error-message">Cannot access this folder</p>
+        </div>
+      </div>
+
+      <!-- Preview Panel -->
+      <div id="preview-panel" style="display:none">
+        <div id="preview-resize" class="resize-handle"></div>
+        <div id="preview-content">
+          <div id="preview-icon-large"></div>
+          <h2 id="preview-filename"></h2>
+          <p id="preview-kind"></p>
+          <div id="preview-actions"></div>
+          <div id="preview-details">
+            <div id="preview-image-container" style="display:none">
+              <img id="preview-image" alt="Preview">
+            </div>
+            <div id="preview-text-container" style="display:none">
+              <pre id="preview-text-content"></pre>
+            </div>
+            <table id="preview-info-table">
+              <tbody id="preview-info-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Status Bar -->
+    <footer id="statusbar">
+      <span id="status-items"></span>
+      <span id="status-path"></span>
+    </footer>
+  </div>
+
+  <!-- Context Menu -->
+  <div id="context-menu" class="context-menu" style="display:none">
+    <div class="context-item" data-action="open">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h8M7 4l3 3-3 3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Open
+    </div>
+    <div class="context-item" data-action="edit" id="ctx-edit">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 11l2 2L13 5l-2-2-8 8zM2 12l1 1M4 10l1 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Edit
+    </div>
+    <div class="context-item" data-action="download" id="ctx-download">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v7M4 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 10v2h10v-2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Download
+    </div>
+    <div class="context-item" data-action="info">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 6v4M7 4.5v.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+      Get Info
+    </div>
+    <div class="context-separator"></div>
+    <div class="context-item" data-action="copy-path">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="3" y="5" width="6" height="7" rx="1" stroke="currentColor" stroke-width="1.1"/><path d="M5 5V3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1H9" stroke="currentColor" stroke-width="1.1"/></svg>
+      Copy Path
+    </div>
+    <div class="context-item" data-action="copy-name">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="3" y="5" width="6" height="7" rx="1" stroke="currentColor" stroke-width="1.1"/><path d="M5 5V3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1H9" stroke="currentColor" stroke-width="1.1"/></svg>
+      Copy Name
+    </div>
+    <div class="context-separator"></div>
+    <div class="context-item" data-action="rename">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 11l2 2L13 5l-2-2-8 8zM2 12l1 1M4 10l1 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Rename
+    </div>
+    <div class="context-item action-danger" data-action="delete">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 3h10M4 3V2a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1M3 3l1 10a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1l1-10" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Delete
+    </div>
+  </div>
+
+  <!-- Upload Modal -->
+  <div id="upload-modal" class="modal-overlay" style="display:none">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h2>Upload Files</h2>
+        <button class="modal-close" id="upload-modal-close">
+          <svg width="14" height="14" viewBox="0 0 14 14"><path d="M3 3L11 11M11 3L3 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="upload-destination">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 4C2 3.448 2.448 3 3 3H6L7.5 4.5H11C11.552 4.5 12 4.948 12 5.5V11C12 11.552 11.552 12 11 12H3C2.448 12 2 11.552 2 11V4Z" fill="currentColor" opacity="0.3"/></svg>
+          <span class="upload-dest-label">Uploading to:</span>
+          <span class="upload-dest-path" id="upload-dest-path"></span>
+        </div>
+        <div class="upload-dropzone" id="upload-dropzone">
+          <div class="dropzone-icon">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><path d="M24 8V32" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><path d="M14 18L24 8L34 18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 32V38C8 39.657 9.343 41 11 41H37C38.657 41 40 39.657 40 38V32" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <p class="dropzone-text">Drag & drop files here</p>
+          <p class="dropzone-subtext">or</p>
+          <button class="dropzone-browse" id="upload-browse-btn">Browse Files</button>
+          <input type="file" id="upload-file-input" multiple style="display:none">
+        </div>
+        <div class="upload-file-list" id="upload-file-list"></div>
+        <div class="upload-progress-area" id="upload-progress-area" style="display:none">
+          <div class="upload-progress-bar-container">
+            <div class="upload-progress-bar" id="upload-progress-bar"></div>
+          </div>
+          <span class="upload-progress-text" id="upload-progress-text">Uploading...</span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="modal-btn modal-btn-secondary" id="upload-cancel-btn">Cancel</button>
+        <button class="modal-btn modal-btn-primary" id="upload-submit-btn" disabled>Upload</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- New Folder Modal -->
+  <div id="mkdir-modal" class="modal-overlay" style="display:none">
+    <div class="modal-window" style="width:360px">
+      <div class="modal-header">
+        <h2>New Folder</h2>
+        <button class="modal-close" id="mkdir-modal-close">
+          <svg width="14" height="14" viewBox="0 0 14 14"><path d="M3 3L11 11M11 3L3 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+      <div class="modal-body" style="padding:20px;">
+        <input type="text" id="mkdir-input" placeholder="untitled folder" autocomplete="off" style="width:100%; padding:10px 12px; border:1px solid var(--border-color); border-radius:6px; background:var(--bg-secondary); color:var(--text-primary); font-size:14px; outline:none; transition:border-color 0.2s;">
+      </div>
+      <div class="modal-footer">
+        <button class="modal-btn modal-btn-secondary" id="mkdir-cancel-btn">Cancel</button>
+        <button class="modal-btn modal-btn-primary" id="mkdir-submit-btn">Create</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Drag & Drop Overlay -->
+  <div id="drag-overlay" class="drag-overlay" style="display:none">
+    <div class="drag-overlay-content">
+      <div class="drag-overlay-icon">
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><path d="M24 8V32" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><path d="M14 18L24 8L34 18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 32V38C8 39.657 9.343 41 11 41H37C38.657 41 40 39.657 40 38V32" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <p class="drag-overlay-text">Drop files to upload</p>
+      <p class="drag-overlay-subtext">Files will be uploaded to the current folder</p>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toast-container"></div>
+
+  <!-- Editor Modal -->
+  <div id="editor-modal" class="modal-overlay" style="display:none">
+    <div class="modal-window editor-window">
+      <div class="modal-header">
+        <h2 id="editor-title">Edit File</h2>
+        <div class="editor-header-actions">
+          <button class="modal-close" id="editor-modal-close">
+            <svg width="14" height="14" viewBox="0 0 14 14"><path d="M3 3L11 11M11 3L3 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="modal-body editor-body">
+        <textarea id="editor-textarea" spellcheck="false"></textarea>
+      </div>
+      <div class="modal-footer">
+        <span id="editor-status" style="margin-right: auto; font-size: 11px; color: var(--text-tertiary);"></span>
+        <button class="modal-btn modal-btn-secondary" id="editor-cancel-btn">Cancel</button>
+        <button class="modal-btn modal-btn-primary" id="editor-save-btn">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rename Modal -->
+  <div id="rename-modal" class="modal-overlay" style="display:none">
+    <div class="modal-window" style="width:360px">
+      <div class="modal-header">
+        <h2>Rename</h2>
+        <button class="modal-close" id="rename-modal-close">
+          <svg width="14" height="14" viewBox="0 0 14 14"><path d="M3 3L11 11M11 3L3 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+      <div class="modal-body" style="padding:20px;">
+        <input type="text" id="rename-input" autocomplete="off" style="width:100%; padding:10px 12px; border:1px solid var(--border-color); border-radius:6px; background:var(--bg-secondary); color:var(--text-primary); font-size:14px; outline:none; transition:border-color 0.2s;">
+      </div>
+      <div class="modal-footer">
+        <button class="modal-btn modal-btn-secondary" id="rename-cancel-btn">Cancel</button>
+        <button class="modal-btn modal-btn-primary" id="rename-submit-btn">Rename</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Confirm Modal -->
+  <div id="delete-modal" class="modal-overlay" style="display:none">
+    <div class="modal-window" style="width:360px">
+      <div class="modal-header">
+        <h2>Delete Item</h2>
+        <button class="modal-close" id="delete-modal-close">
+          <svg width="14" height="14" viewBox="0 0 14 14"><path d="M3 3L11 11M11 3L3 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+      <div class="modal-body" style="padding:20px; text-align:center;">
+        <p>Are you sure you want to delete "<span id="delete-item-name" style="font-weight:600"></span>"?</p>
+        <p style="font-size:12px; color:var(--text-secondary); margin-top:10px;">This action cannot be undone.</p>
+      </div>
+      <div class="modal-footer">
+        <button class="modal-btn modal-btn-secondary" id="delete-cancel-btn">Cancel</button>
+        <button class="modal-btn modal-btn-danger" id="delete-submit-btn">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

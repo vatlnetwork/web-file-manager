@@ -1,0 +1,180 @@
+/* ======================================================
+   WebFiles — macOS Tahoe "Liquid Glass" Stylesheet
+   ====================================================== */
+
+:root {
+  /* macOS Tahoe Liquid Glass color tokens */
+  --bg-window: rgba(255, 255, 255, 0.12);
+  --bg-sidebar: rgba(255, 255, 255, 0.08);
+  --bg-content: rgba(255, 255, 255, 0.06);
+  --bg-titlebar: rgba(255, 255, 255, 0.14);
+  --bg-statusbar: rgba(255, 255, 255, 0.10);
+  --bg-pathbar: rgba(255, 255, 255, 0.08);
+  --bg-hover: rgba(255, 255, 255, 0.12);
+  --bg-selected: rgba(0, 122, 255, 0.65);
+  --bg-selected-unfocused: rgba(255, 255, 255, 0.08);
+  --bg-preview: rgba(255, 255, 255, 0.08);
+  --bg-glass: rgba(255, 255, 255, 0.10);
+  --bg-glass-strong: rgba(255, 255, 255, 0.18);
+
+  --text-primary: rgba(255, 255, 255, 0.95);
+  --text-secondary: rgba(255, 255, 255, 0.58);
+  --text-tertiary: rgba(255, 255, 255, 0.32);
+  --text-on-accent: #ffffff;
+  --text-sidebar-heading: rgba(255, 255, 255, 0.40);
+
+  --border-color: rgba(255, 255, 255, 0.12);
+  --border-sidebar: rgba(255, 255, 255, 0.08);
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --border-glass: rgba(255, 255, 255, 0.18);
+  --border-glass-highlight: rgba(255, 255, 255, 0.28);
+
+  --accent: #0a84ff;
+  --accent-hover: #409cff;
+  --accent-glow: rgba(10, 132, 255, 0.35);
+  --red: #ff453a;
+  --yellow: #ffd60a;
+  --green: #30d158;
+
+  --shadow-window: 
+    0 40px 100px rgba(0, 0, 0, 0.45),
+    0 0 1px rgba(255, 255, 255, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  --shadow-dropdown: 
+    0 12px 48px rgba(0, 0, 0, 0.5),
+    0 0 1px rgba(255, 255, 255, 0.12);
+  --shadow-subtle: 0 2px 8px rgba(0, 0, 0, 0.2);
+  --shadow-glow: 0 0 30px rgba(10, 132, 255, 0.15);
+
+  --radius-window: 16px;
+  --radius-lg: 14px;
+  --radius-md: 10px;
+  --radius-sm: 8px;
+  --radius-xs: 6px;
+
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+  --font-size-xs: 11px;
+  --font-size-sm: 12px;
+  --font-size-md: 13px;
+  --font-size-lg: 14px;
+  --font-size-xl: 16px;
+
+  --sidebar-width: 220px;
+  --titlebar-height: 52px;
+  --pathbar-height: 38px;
+  --statusbar-height: 30px;
+  --list-header-height: 30px;
+  --preview-width: 280px;
+
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.25s ease;
+  --transition-spring: 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  --transition-glass: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+
+  --blur-window: 50px;
+  --blur-panel: 30px;
+  --blur-overlay: 20px;
+}
+
+/* === Reset & Base === */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  background: 
+    radial-gradient(ellipse at 20% 30%, rgba(88, 86, 214, 0.4) 0%, transparent 60%),
+    radial-gradient(ellipse at 75% 20%, rgba(10, 132, 255, 0.3) 0%, transparent 55%),
+    radial-gradient(ellipse at 50% 80%, rgba(191, 90, 242, 0.3) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 75%, rgba(48, 209, 88, 0.15) 0%, transparent 50%),
+    linear-gradient(145deg, #1a1a2e 0%, #16213e 35%, #0f3460 65%, #1a1a2e 100%);
+  font-family: var(--font-family);
+  font-size: var(--font-size-md);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  user-select: none;
+}
+
+/* Animated background */
+body::before {
+  content: '';
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: 
+    radial-gradient(circle at 30% 40%, rgba(10, 132, 255, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 70% 60%, rgba(191, 90, 242, 0.06) 0%, transparent 40%);
+  animation: bgDrift 30s ease-in-out infinite alternate;
+  pointer-events: none;
+  z-index: -1;
+}
+
+@keyframes bgDrift {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(-3%, 2%) rotate(1deg); }
+  100% { transform: translate(2%, -1%) rotate(-0.5deg); }
+}
+
+/* === App Window === */
+#app {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  bottom: 20px;
+  background: var(--bg-window);
+  border-radius: var(--radius-window);
+  box-shadow: var(--shadow-window);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  backdrop-filter: blur(var(--blur-window)) saturate(1.8);
+  -webkit-backdrop-filter: blur(var(--blur-window)) saturate(1.8);
+  border: 1px solid var(--border-glass);
+  animation: windowAppear 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Inner specular highlight */
+#app::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    transparent 5%, 
+    rgba(255, 255, 255, 0.35) 30%, 
+    rgba(255, 255, 255, 0.5) 50%, 
+    rgba(255, 255, 255, 0.35) 70%, 
+    transparent 95%);
+  z-index: 100;
+  pointer-events: none;
+  border-radius: var(--radius-window) var(--radius-window) 0 0;
+}
+
+@keyframes windowAppear {
+  0% {
+    opacity: 0;
+    transform: scale(0.92) translateY(16px);
+    filter: blur(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0);
+  }
+}
+
+/* === Smooth scrollbar for all panels === */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+}

@@ -2,7 +2,7 @@
 
 WebFiles is a premium, web-based file management system inspired by the macOS Finder interface. It provides a seamless, responsive, and aesthetically pleasing way to browse, manage, and edit files on your server directly from any web browser.
 
-![WebFiles Preview](https://via.placeholder.com/1200x600.png?text=WebFiles+UI+Preview) <!-- Replace with actual screenshot if available -->
+![WebFiles Preview](https://raw.githubusercontent.com/vatlnetwork/web-file-manager/refs/heads/main/assets/preview.png)
 
 ## ✨ Features
 
@@ -12,7 +12,7 @@ WebFiles is a premium, web-based file management system inspired by the macOS Fi
 - **📝 Built-in Editor**: Edit text-based files (HTML, JS, CSS, JSON, etc.) directly in the browser with an integrated code editor.
 - **🔍 Quick Search**: Powerful recursive search to find files across your entire project instantly.
 - **🖼️ Media Preview**: Integrated image viewer and text file previews.
-- **🔒 Secure by Design**: 
+- **🔒 Secure by Design**:
   - **Directory Sandboxing**: Restricts access to a specific root directory (cannot escape via `../`).
   - **Basic Authentication**: Optional password protection for your file server.
 - **🌓 Responsive Design**: Works perfectly on desktops, tablets, and mobile devices.
@@ -27,12 +27,14 @@ WebFiles is a premium, web-based file management system inspired by the macOS Fi
 ### Installation
 
 1. **Clone the repository**:
+
    ```bash
    git clone https://github.com/vatlnetwork/web-file-manager.git
    cd web-file-manager
    ```
 
 2. **Install dependencies**:
+
    ```bash
    npm install
    ```
@@ -56,6 +58,7 @@ WebFiles can be configured via environment variables or command-line arguments:
 - `--auth <file>`: (CLI Argument) Path to a file containing username (line 1) and password (line 2).
 
 Example starting on a custom directory with authentication:
+
 ```bash
 ROOT_DIR=/home/user/documents npm start -- --auth /path/to/my_auth.txt
 ```
@@ -76,4 +79,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-*Built with ❤️ to bring the desktop experience to the web.*
+_Built with ❤️ to bring the desktop experience to the web._

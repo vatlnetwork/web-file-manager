@@ -77,6 +77,11 @@ ROOT_DIR=/home/user/documents npm start -- --auth /path/to/my_auth.txt
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
+## 🐛 Known Bugs
+
+- **Sidebar Refresh**: Creating a new folder at the root level of the hosted directory doesn't automatically update the sidebar tree.
+- **Backspace Navigation**: Attempting to use the backspace key within the "New File" or "New Folder" modals triggers the back navigation, moving the interface one directory back instead of deleting a character.
+
 ---
 
 _Built with ❤️ to bring the desktop experience to the web._

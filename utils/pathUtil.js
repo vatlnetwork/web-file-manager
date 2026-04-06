@@ -1,7 +1,7 @@
 const path = require('path');
 
-// Root directory — everything is sandboxed to where the server was started
-const ROOT_DIR = path.resolve(process.cwd());
+// Root directory from environment variable or current working directory
+const ROOT_DIR = process.env.ROOT_DIR ? path.resolve(process.env.ROOT_DIR) : path.resolve(process.cwd());
 
 // Path Sandboxing Helper
 function sandboxPath(requestedPath) {

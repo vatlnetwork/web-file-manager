@@ -642,8 +642,9 @@ const $ = (sel) => document.querySelector(sel);
         else if (state.previewVisible) hidePreview();
       }
 
-      // Don't handle shortcuts when typing in search
-      if (document.activeElement === els.searchInput) return;
+      // Don't handle shortcuts when typing in search or any input/textarea
+      const activeElement = document.activeElement;
+      if (activeElement === els.searchInput || activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA') return;
 
       // Cmd/Ctrl+F = focus search
       if ((e.metaKey || e.ctrlKey) && e.key === 'f') {
@@ -651,11 +652,18 @@ const $ = (sel) => document.querySelector(sel);
         els.searchInput.focus();
       }
 
-      // Backspace = go back / navigate up
+      // Backspace = go back / navigate up (skip if any modal is open)
       if (e.key === 'Backspace') {
-        e.preventDefault();
-        const parent = state.currentPath.split('/').slice(0, -1).join('/') || '/';
-        if (parent !== state.currentPath) navigateTo(parent);
+        const isModalOpen = els.uploadModal.style.display !== 'none' || 
+                           els.mkdirModal.style.display !== 'none' || 
+                           els.renameModal.style.display !== 'none' || 
+                           els.deleteModal.style.display !== 'none' || 
+                           els.editorModal.style.display !== 'none';
+        if (!isModalOpen) {
+          e.preventDefault();
+          const parent = state.currentPath.split('/').slice(0, -1).join('/') || '/';
+          if (parent !== state.currentPath) navigateTo(parent);
+        }
       }
 
       // Alt+Left = back, Alt+Right = forward

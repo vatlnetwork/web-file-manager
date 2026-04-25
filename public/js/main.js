@@ -522,7 +522,16 @@ const $ = (sel) => document.querySelector(sel);
     const menu = els.contextMenu;
     menu.style.display = 'block';
     menu.style.left = Math.min(x, window.innerWidth - 200) + 'px';
-    menu.style.top = Math.min(y, window.innerHeight - 150) + 'px';
+    menu.style.top = y + 'px';
+
+    // Get menu dimensions to check if it needs to flip vertically
+    const menuRect = menu.getBoundingClientRect();
+    const menuHeight = menuRect.height;
+    
+    // If menu would go off the bottom of the screen, position it above the cursor instead
+    if (y + menuHeight > window.innerHeight) {
+      menu.style.top = Math.max(0, y - menuHeight) + 'px';
+    }
 
     const dlItem = menu.querySelector('[data-action="download"]');
     const editItem = menu.querySelector('[data-action="edit"]');

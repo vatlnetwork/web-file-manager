@@ -98,7 +98,20 @@ const $ = (sel) => document.querySelector(sel);
   // ── Sidebar ────────────────────────────────────────────
   async function initSidebar() {
     try {
+      await renderSidebar();
+      // Navigate to root dir
       const info = await fetchSidebarInfo();
+      navigateTo(info.rootDir);
+    } catch (err) {
+      console.error('Failed to init sidebar:', err);
+      navigateTo('/');
+    }
+  }
+
+  async function renderSidebar() {
+    try {
+      const info = await fetchSidebarInfo();
+      state.rootDir = info.rootDir;
 
       // Root dir entry + folder list
       let html = `
@@ -123,12 +136,8 @@ const $ = (sel) => document.querySelector(sel);
           navigateTo(item.dataset.path);
         });
       });
-
-      // Navigate to root dir
-      navigateTo(info.rootDir);
     } catch (err) {
-      console.error('Failed to init sidebar:', err);
-      navigateTo('/');
+      console.error('Failed to render sidebar:', err);
     }
   }
 
@@ -914,7 +923,13 @@ const $ = (sel) => document.querySelector(sel);
       
       showToast(`Created ${isFile ? 'file' : 'folder'} "${name}"`, 'success');
       closeMkdirModal();
-      navigateTo(state.currentPath || '/');
+      // Refresh sidebar if creating a folder at root level
+      if (!isFile && state.currentPath === state.rootDir) {
+        await renderSidebar();
+        navigateTo(state.currentPath);
+      } else {
+        navigateTo(state.currentPath || '/');
+      }
     } catch (err) {
       showToast(err.message, 'error');
     } finally {
@@ -999,10 +1014,21 @@ const $ = (sel) => document.querySelector(sel);
     if (!itemToDelete) return;
     els.deleteSubmitBtn.disabled = true;
     try {
+      // Check if item is at root level by checking if parent equals rootDir
+      const parentPath = itemToDelete.path.substring(0, itemToDelete.path.lastIndexOf('/')) || '/';
+      const isRootLevel = itemToDelete.isDirectory && parentPath === state.rootDir;
+      
       await deleteFile(itemToDelete.path);
       showToast(`Deleted "${itemToDelete.name}"`, 'success');
       closeDeleteModal();
-      navigateTo(state.currentPath || '/');
+      
+      // Refresh sidebar if deleting a folder at root level
+      if (isRootLevel) {
+        await renderSidebar();
+        navigateTo(state.currentPath);
+      } else {
+        navigateTo(state.currentPath || '/');
+      }
     } catch (err) {
       showToast(err.message, 'error');
     } finally {

@@ -1,5 +1,6 @@
 export const state = {
   currentPath: '',
+  rootDir: '',
   files: [],
   history: [],
   historyIndex: -1,
